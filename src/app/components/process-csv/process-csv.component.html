@@ -1,1 +1,24 @@
-<p>process-csv works!</p>
+<div class="process-csv-container mat-elevation-z4">
+  <h2>Upload CSV → Database</h2>
+
+  <mat-card>
+    <div class="file-input-group">
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        accept=".csv"
+        id="csvFile"
+      />
+      <label for="csvFile">{{ selectedFile?.name || 'Choose CSV file...' }}</label>
+    </div>
+
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="uploadToDb()"
+      [disabled]="!selectedFile || isProcessing"
+    >
+      {{ isProcessing ? 'Processing...' : 'Upload to DB' }}
+    </button>
+  </mat-card>
+</div>

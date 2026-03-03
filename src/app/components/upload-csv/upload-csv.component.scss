@@ -3,7 +3,7 @@
   margin: 40px auto;
   padding: 20px;
   background: #ffffff;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
 }
 
@@ -14,4 +14,21 @@
 .form-actions {
   display: flex;
   justify-content: flex-end;
+}
+
+/* SweetAlert <b> pulse animation for progress */
+.swal2-html-container b {
+  display: inline-block;
+  animation: pulse 1s infinite alternate;
+  font-weight: bold;
+  color: #1976d2;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.2);
+  }
 }

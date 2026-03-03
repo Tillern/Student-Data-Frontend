@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { HttpClientModule, HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { interval, Subscription } from 'rxjs';
 
@@ -47,11 +47,11 @@ export class UploadCsvComponent {
 
     const formData = new FormData();
     formData.append('file', this.selectedFile);
-
     this.isProcessing = true;
 
+    // Show SweetAlert with initial 0%
     Swal.fire({
-      title: 'Processing Excel → CSV...',
+      title: 'Processing Excel to CSV...',
       html: '<b>0%</b> completed',
       didOpen: () => Swal.showLoading(),
       allowOutsideClick: false,
@@ -59,12 +59,9 @@ export class UploadCsvComponent {
     });
 
     this.http
-      .post<{
-        message?: string;
-      }>('http://localhost:8080/api/csv/upload', formData, { responseType: 'text' as 'json' })
+      .post('http://localhost:8080/api/csv/upload', formData, { responseType: 'text' })
       .subscribe({
         next: (res: any) => {
-          // Extract Job ID from response
           const match = res.match(/Job ID: (\S+)/);
           if (match) {
             this.jobId = match[1];
@@ -85,39 +82,52 @@ export class UploadCsvComponent {
   startPolling() {
     if (!this.jobId) return;
 
-    this.pollingSubscription = interval(1000).subscribe(() => {
+    this.pollingSubscription = interval(500).subscribe(() => {
       this.http.get<any>(`http://localhost:8080/api/excel/job/${this.jobId}`).subscribe({
         next: (job) => {
-          // Update SweetAlert progress
-          const b = Swal.getHtmlContainer()?.querySelector('b');
-          if (b && job.totalRecords > 0) {
-            b.textContent = Math.floor((job.processedRecords / job.totalRecords) * 100) + '%';
-          }
+          this.ngZone.run(() => {
+            // Update SweetAlert percentage live
+            const progressElement = Swal.getHtmlContainer()?.querySelector('b');
 
-          if (job.status === 'COMPLETED') {
-            if (this.pollingSubscription) this.pollingSubscription.unsubscribe();
+            if (progressElement) {
+              const processed = job.processedRecords?.toLocaleString() ?? 0;
 
-            const started = job.startedAt ? new Date(job.startedAt).getTime() : null;
-            const completed = job.completedAt ? new Date(job.completedAt).getTime() : null;
-            const durationSec =
-              started && completed ? ((completed - started) / 1000).toFixed(2) : null;
+              if (job.totalRecords && job.totalRecords > 0) {
+                const total = job.totalRecords.toLocaleString();
+                progressElement.textContent = `${processed} / ${total} records processed`;
+              } else {
+                progressElement.textContent = `${processed} records processed`;
+              }
+            }
 
-            Swal.fire({
-              icon: 'success',
-              title: 'CSV Processing Completed',
-              html: `File saved on backend.<br>Total rows processed: ${job.totalRecords}<br>
-                     ${durationSec ? `Time taken: ${durationSec} seconds` : ''}`,
-              confirmButtonText: 'OK',
-            }).then(() => this.ngZone.run(() => this.resetUI()));
-          }
+            // Completed
+            if (job.status === 'COMPLETED') {
+              if (this.pollingSubscription) this.pollingSubscription.unsubscribe();
 
-          if (job.status === 'FAILED') {
-            if (this.pollingSubscription) this.pollingSubscription.unsubscribe();
+              const started = job.startedAt ? new Date(job.startedAt).getTime() : null;
+              const completed = job.completedAt ? new Date(job.completedAt).getTime() : null;
+              const durationSec =
+                started && completed ? ((completed - started) / 1000).toFixed(2) : null;
 
-            Swal.fire('Failed', `CSV processing failed: ${job.message}`, 'error').then(() =>
-              this.ngZone.run(() => this.resetUI()),
-            );
-          }
+              Swal.fire({
+                icon: 'success',
+                title: 'CSV Processing Completed',
+                html: `File saved on backend.<br>
+                       Total records processed: ${job.totalRecords}<br>
+                       ${durationSec ? `Time taken: ${durationSec} seconds` : ''}`,
+                confirmButtonText: 'OK',
+              }).then(() => this.resetUI());
+            }
+
+            // Failed
+            if (job.status === 'FAILED') {
+              if (this.pollingSubscription) this.pollingSubscription.unsubscribe();
+
+              Swal.fire('Failed', `CSV processing failed: ${job.message}`, 'error').then(() =>
+                this.resetUI(),
+              );
+            }
+          });
         },
         error: (err) => console.error('Error polling CSV job', err),
       });
