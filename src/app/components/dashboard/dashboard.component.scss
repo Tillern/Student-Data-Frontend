@@ -1,0 +1,38 @@
+.dashboard-container {
+  padding: 20px;
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  .no-files {
+    font-style: italic;
+    color: #666;
+  }
+
+  .file-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    td button {
+      margin-right: 5px;
+    }
+  }
+
+  .processing-overlay {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #d32f2f;
+  }
+}

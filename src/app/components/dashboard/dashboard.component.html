@@ -1,0 +1,49 @@
+<div class="dashboard-container">
+  <h2>Uploaded Files</h2>
+
+  <div *ngIf="uploadedFiles.length === 0" class="no-files">
+    No files available
+  </div>
+
+  <table *ngIf="uploadedFiles.length > 0" class="file-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Last Modified</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of uploadedFiles">
+        <td>{{ file.name }}</td>
+        <td>{{ file.type }}</td>
+        <td>{{ file.size | number }} bytes</td>
+        <td>{{ file.lastModified | date: 'short' }}</td>
+        <td>
+          <button
+            mat-raised-button
+            color="primary"
+            *ngIf="file.type === 'excel'"
+            (click)="convertExcelToCsv(file)"
+          >
+            Excel → CSV
+          </button>
+          <button
+            mat-raised-button
+            color="accent"
+            *ngIf="file.type === 'csv'"
+            (click)="uploadCsvToDb(file)"
+          >
+            Upload CSV → DB
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="isProcessing" class="processing-overlay">
+    Processing...
+  </div>
+</div>

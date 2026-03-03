@@ -1,0 +1,49 @@
+.student-report-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+
+  h2 {
+    text-align: center;
+    color: #3f51b5;
+    margin-bottom: 20px;
+  }
+
+  mat-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 12px;
+  }
+
+  .filters {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+
+    th {
+      background-color: #f5f5f5;
+      text-align: left;
+      padding: 8px;
+    }
+
+    td {
+      padding: 8px;
+    }
+  }
+
+  .export-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
+}
