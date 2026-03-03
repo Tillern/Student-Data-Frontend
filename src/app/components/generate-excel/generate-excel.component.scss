@@ -1,0 +1,55 @@
+.generate-card {
+  max-width: 650px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fdfdfd;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.progress-container {
+  margin-top: 20px;
+}
+
+mat-progress-bar {
+  height: 25px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: -50%;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    animation: pulse 2s linear infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+p {
+  margin-top: 10px;
+  font-weight: 600;
+}

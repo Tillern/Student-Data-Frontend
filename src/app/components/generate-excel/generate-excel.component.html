@@ -1,0 +1,17 @@
+<mat-card class="generate-card">
+  <mat-card-title>Generate Student Excel Data</mat-card-title>
+  <mat-card-content>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Number of Records</mat-label>
+        <input matInput type="number" [(ngModel)]="numberOfRecords" min="1" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-actions">
+      <button mat-raised-button color="primary" (click)="generateExcel()" [disabled]="isGenerating">
+        {{ isGenerating ? 'Generating...' : 'Generate Excel' }}
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

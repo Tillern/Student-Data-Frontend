@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
-import { StudentsComponent } from './features/students/students';
-import { GenerateComponent } from './features/data-generation/generate/generate';
-import { ProcessComponent } from './features/data-processing/process/process';
-import { UploadComponent } from './features/data-upload/upload/upload';
-import { StudentReportComponent } from './features/report/student-report/student-report';
+
+import { GenerateExcelComponent } from './components/generate-excel/generate-excel.component';
+import { StudentsComponent } from './components/students/students.component';
+import { ProcessCsvComponent } from './components/process-csv/process-csv.component';
+import { UploadCsvComponent } from './components/upload-csv/upload-csv.component';
+import { StudentReportComponent } from './components/student-report/student-report.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/students', pathMatch: 'full' },
+  { path: '', redirectTo: 'generate-excel', pathMatch: 'full' },
+  { path: 'generate-excel', component: GenerateExcelComponent },
   { path: 'students', component: StudentsComponent },
-  { path: 'data-generation', component: GenerateComponent },
-  { path: 'data-processing', component: ProcessComponent },
-  { path: 'data-upload', component: UploadComponent },
-  { path: 'report', component: StudentReportComponent },
-  { path: '**', redirectTo: '/students' },
+  { path: 'process-csv', component: ProcessCsvComponent },
+  { path: 'upload-csv', component: UploadCsvComponent },
+  { path: 'student-report', component: StudentReportComponent }
 ];
