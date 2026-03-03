@@ -1,0 +1,14 @@
+.report-container {
+  .card {
+    border-radius: 1rem;
+  }
+  input.form-control {
+    font-size: 1.1rem;
+  }
+  button {
+    transition: 0.3s;
+  }
+  button:hover {
+    transform: scale(1.05);
+  }
+}

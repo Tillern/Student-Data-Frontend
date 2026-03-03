@@ -1,11 +1,16 @@
 import { Routes } from '@angular/router';
-import { UploadComponent } from './features/upload/upload';
 import { StudentsComponent } from './features/students/students';
-import { ReportComponent } from './features/report/report';
+import { GenerateComponent } from './features/data-generation/generate/generate';
+import { ProcessComponent } from './features/data-processing/process/process';
+import { UploadComponent } from './features/data-upload/upload/upload';
+import { StudentReportComponent } from './features/report/student-report/student-report';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'students', pathMatch: 'full' },
-  { path: 'upload', component: UploadComponent },
+  { path: '', redirectTo: '/students', pathMatch: 'full' },
   { path: 'students', component: StudentsComponent },
-  { path: 'report', component: ReportComponent }
+  { path: 'data-generation', component: GenerateComponent },
+  { path: 'data-processing', component: ProcessComponent },
+  { path: 'data-upload', component: UploadComponent },
+  { path: 'report', component: StudentReportComponent },
+  { path: '**', redirectTo: '/students' },
 ];
