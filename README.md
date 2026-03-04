@@ -102,7 +102,7 @@ http://localhost:8080/api/files
 
 ---
 
-# UI Screense
+# UI Screens
 <img width="1920" height="1080" alt="Screenshot (512)" src="https://github.com/user-attachments/assets/728935fa-ad23-449f-9b42-f8dd5472b64f" />
 <img width="1920" height="1080" alt="Screenshot (510)" src="https://github.com/user-attachments/assets/5f518a65-fa9a-4690-8426-1240b74aadb2" />
 <img width="1920" height="1080" alt="Screenshot (508)" src="https://github.com/user-attachments/assets/ccc61f08-d16f-47d0-a205-7dd872654ce8" />
